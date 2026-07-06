@@ -36,8 +36,8 @@ router.post('/', async (req, res) => {
   }
 })
 
-router.delete('/:id', async (req, res) => {
-  const { id } = req.params
+router.delete('/', async (req, res) => {
+  const id = req.query.id
 
   try {
     const result = await pool.query(

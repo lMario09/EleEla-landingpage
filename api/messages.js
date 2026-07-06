@@ -15,7 +15,7 @@ export default async function handler(req, res) {
     const pool = getPool()
 
     if (req.method === 'DELETE') {
-      const id = req.url.split('/').pop()
+      const id = req.query.id
       if (!id) {
         return res.writeHead(400, { ...headers, 'Content-Type': 'application/json' }).end(JSON.stringify({ error: 'ID não informado' }))
       }

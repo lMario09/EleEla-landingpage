@@ -23,7 +23,7 @@ function Admin() {
   }, [])
 
   function deleteMessage(id) {
-    fetch(`${API}/messages/${id}`, { method: 'DELETE' })
+    fetch(`${API}/messages?id=${id}`, { method: 'DELETE' })
       .then((res) => {
         if (!res.ok) throw new Error('Erro ao excluir')
         setMessages((prev) => prev.filter((msg) => msg.id !== id))
