@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Mail, Trash2, RefreshCw } from 'lucide-react'
 
-const API = 'http://localhost:3001/api'
+const API = '/api'
 
 function Admin() {
   const [messages, setMessages] = useState([])

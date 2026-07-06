@@ -8,6 +8,8 @@ const pool = new Pool({
   database: process.env.DB_NAME || 'eleeela',
   user: process.env.DB_USER || 'postgres',
   password: process.env.DB_PASSWORD || '',
+  ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false,
+  connectionTimeoutMillis: 10000,
 })
 
 export default pool
