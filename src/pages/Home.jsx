@@ -4,7 +4,7 @@ import {
   Wifi, Car, Accessibility, Calendar,
   Fish, Beer, ChefHat, Wallet,
   Droplets, ShieldCheck,
-  MessageCircle, MapPin, Clock,
+  MessageCircle, MapPin, Clock, Star,
 } from 'lucide-react'
 import logoSrc from '../assets/image/Logo sem fundo.png'
 import img2 from '../assets/image/image2.webp'
@@ -316,6 +316,29 @@ function Home() {
             </button>
           </form>
         )}
+      </section>
+
+      {/* ===== AVALIAÇÃO GOOGLE ===== */}
+      <section className="bg-gradient-to-br from-gold/[0.03] to-sky-custom/[0.03] border-y border-gold/10">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 text-center">
+          <Star className="w-10 h-10 text-gold mx-auto mb-4" />
+          <h2 className="text-2xl sm:text-3xl font-bold text-navy mb-3">
+            Avalie a gente no <span className="text-gold">Google</span>
+          </h2>
+          <p className="text-slate-500 mb-8 max-w-lg mx-auto">
+            Sua opinião é muito importante para nós. Compartilhe sua experiência e ajude outros
+            visitantes a conhecer o espaço.
+          </p>
+          <a
+            href="https://www.google.com/maps/place//data=!4m3!3m2!1s0x79c0593c3d1196b:0x3e63c45ca69508a1!12e1?source=g.page.m._&laa=merchant-review-solicitation"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-full bg-navy px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-navy-light hover:-translate-y-0.5 transition-all duration-200"
+          >
+            <Star className="w-4 h-4 fill-gold-light text-gold-light" />
+            Avaliar no Google
+          </a>
+        </div>
       </section>
 
       {/* ===== CTA FINAL ===== */}
