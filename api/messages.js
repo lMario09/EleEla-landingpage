@@ -3,7 +3,7 @@ import getPool from '../api/db.js'
 export default async function handler(req, res) {
   const headers = {
     'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    'Access-Control-Allow-Methods': 'GET, POST, DELETE, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
   }
 
@@ -13,6 +13,18 @@ export default async function handler(req, res) {
 
   try {
     const pool = getPool()
+
+    if (req.method === 'DELETE') {
+      const id = req.url.split('/').pop()
+      if (!id) {
+        return res.writeHead(400, { ...headers, 'Content-Type': 'application/json' }).end(JSON.stringify({ error: 'ID não informado' }))
+      }
+      const result = await pool.query('DELETE FROM messages WHERE id = $1 RETURNING *', [id])
+      if (result.rows.length === 0) {
+        return res.writeHead(404, { ...headers, 'Content-Type': 'application/json' }).end(JSON.stringify({ error: 'Mensagem não encontrada' }))
+      }
+      return res.writeHead(200, { ...headers, 'Content-Type': 'application/json' }).end(JSON.stringify({ message: 'Mensagem excluída com sucesso' }))
+    }
 
     if (req.method === 'GET') {
       const result = await pool.query('SELECT * FROM messages ORDER BY created_at DESC')
