@@ -3,11 +3,40 @@ import pool from '../db.js'
 
 const router = Router()
 
+const rateLimitMap = new Map()
+
+function checkRateLimit(ip) {
+  const now = Date.now()
+  const windowMs = 60000
+  const maxRequests = 5
+
+  const entry = rateLimitMap.get(ip)
+  if (!entry || now - entry.windowStart > windowMs) {
+    rateLimitMap.set(ip, { windowStart: now, count: 1 })
+    return true
+  }
+
+  if (entry.count >= maxRequests) {
+    return false
+  }
+
+  entry.count++
+  return true
+}
+
+function isAuthorized(req) {
+  const adminPassword = process.env.ADMIN_PASSWORD
+  if (!adminPassword) return false
+  return req.headers['x-admin-auth'] === adminPassword
+}
+
 router.get('/', async (req, res) => {
+  if (!isAuthorized(req)) {
+    return res.status(401).json({ error: 'Não autorizado' })
+  }
+
   try {
-    const result = await pool.query(
-      'SELECT * FROM messages ORDER BY created_at DESC'
-    )
+    const result = await pool.query('SELECT * FROM messages ORDER BY created_at DESC')
     res.json(result.rows)
   } catch (err) {
     console.error('Erro ao buscar mensagens:', err)
@@ -16,7 +45,12 @@ router.get('/', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-  const { nome, email, telefone, mensagem, createdAt } = req.body
+  const ip = req.ip || req.socket.remoteAddress || 'unknown'
+  if (!checkRateLimit(ip)) {
+    return res.status(429).json({ error: 'Muitas requisições. Tente novamente em 1 minuto.' })
+  }
+
+  const { nome, email, telefone, mensagem } = req.body
 
   if (!nome || !email || !mensagem) {
     return res.status(400).json({ error: 'nome, email e mensagem são obrigatórios' })
@@ -27,7 +61,7 @@ router.post('/', async (req, res) => {
       `INSERT INTO messages (nome, email, telefone, mensagem, created_at)
        VALUES ($1, $2, $3, $4, $5)
        RETURNING *`,
-      [nome, email, telefone || null, mensagem, createdAt || new Date().toISOString()]
+      [nome, email, telefone || null, mensagem, new Date().toISOString()]
     )
     res.status(201).json(result.rows[0])
   } catch (err) {
@@ -37,6 +71,10 @@ router.post('/', async (req, res) => {
 })
 
 router.delete('/', async (req, res) => {
+  if (!isAuthorized(req)) {
+    return res.status(401).json({ error: 'Não autorizado' })
+  }
+
   const id = req.query.id
 
   try {

@@ -1,34 +1,109 @@
 import { useState, useEffect } from 'react'
-import { Mail, Trash2, RefreshCw } from 'lucide-react'
+import { Mail, Trash2, RefreshCw, Lock } from 'lucide-react'
 
 const API = '/api'
 
 function Admin() {
   const [messages, setMessages] = useState([])
   const [loading, setLoading] = useState(true)
+  const [authenticated, setAuthenticated] = useState(false)
+  const [password, setPassword] = useState('')
+  const [loginError, setLoginError] = useState('')
 
-  function fetchMessages() {
+  useEffect(() => {
+    const token = sessionStorage.getItem('admin_token')
+    if (token) {
+      setAuthenticated(true)
+      fetchMessages(token)
+    } else {
+      setLoading(false)
+    }
+  }, [])
+
+  function fetchMessages(token) {
+    const t = token || sessionStorage.getItem('admin_token')
     setLoading(true)
-    fetch(`${API}/messages`)
-      .then((res) => res.json())
+    fetch(`${API}/messages`, {
+      headers: t ? { 'X-Admin-Auth': t } : {},
+    })
+      .then((res) => {
+        if (res.status === 401) {
+          sessionStorage.removeItem('admin_token')
+          setAuthenticated(false)
+          setLoading(false)
+          return Promise.reject(new Error('auth'))
+        }
+        if (!res.ok) return Promise.reject(new Error('Erro ao carregar'))
+        return res.json()
+      })
       .then((data) => {
         setMessages(data.reverse())
         setLoading(false)
       })
-      .catch(() => setLoading(false))
+      .catch((e) => {
+        if (e.message !== 'auth') alert(e.message)
+        setLoading(false)
+      })
   }
 
-  useEffect(() => {
-    fetchMessages()
-  }, [])
+  function handleLogin(e) {
+    e.preventDefault()
+    setLoginError('')
+    fetch(`${API}/auth`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password }),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error('Senha inválida')
+        sessionStorage.setItem('admin_token', password)
+        setAuthenticated(true)
+        fetchMessages(password)
+      })
+      .catch(() => setLoginError('Senha inválida'))
+  }
 
   function deleteMessage(id) {
-    fetch(`${API}/messages?id=${id}`, { method: 'DELETE' })
+    const token = sessionStorage.getItem('admin_token')
+    fetch(`${API}/messages?id=${id}`, {
+      method: 'DELETE',
+      headers: token ? { 'X-Admin-Auth': token } : {},
+    })
       .then((res) => {
         if (!res.ok) throw new Error('Erro ao excluir')
         setMessages((prev) => prev.filter((msg) => msg.id !== id))
       })
       .catch(() => alert('Não foi possível excluir a mensagem.'))
+  }
+
+  if (!authenticated) {
+    return (
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
+        <form onSubmit={handleLogin} className="bg-white p-8 rounded-xl shadow-sm border border-slate-100 w-full max-w-sm">
+          <div className="flex items-center gap-2 mb-6">
+            <Lock className="w-5 h-5 text-gold-light" />
+            <h1 className="text-xl font-bold text-navy">Acesso Restrito</h1>
+          </div>
+          {loginError && (
+            <p className="text-red-500 text-sm mb-4">{loginError}</p>
+          )}
+          <input
+            type="password"
+            placeholder="Senha de admin"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full px-4 py-2 border border-slate-200 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-gold/50"
+            autoFocus
+          />
+          <button
+            type="submit"
+            className="w-full bg-navy text-white py-2 rounded-lg hover:bg-navy-light transition-colors font-medium cursor-pointer"
+          >
+            Entrar
+          </button>
+        </form>
+      </div>
+    )
   }
 
   return (
@@ -40,8 +115,8 @@ function Admin() {
             Painel Admin — Mensagens
           </h1>
           <button
-            onClick={fetchMessages}
-            className="text-sm text-slate-300 hover:text-gold-light flex items-center gap-1 transition-colors"
+            onClick={() => fetchMessages()}
+            className="text-sm text-slate-300 hover:text-gold-light flex items-center gap-1 transition-colors cursor-pointer"
           >
             <RefreshCw className="w-4 h-4" />
             Atualizar
@@ -82,7 +157,7 @@ function Admin() {
                   </div>
                   <button
                     onClick={() => deleteMessage(msg.id)}
-                    className="shrink-0 p-2 text-slate-300 hover:text-red-500 transition-colors"
+                    className="shrink-0 p-2 text-slate-300 hover:text-red-500 transition-colors cursor-pointer"
                     title="Excluir"
                   >
                     <Trash2 className="w-4 h-4" />

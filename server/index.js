@@ -2,6 +2,7 @@ import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
 import messagesRouter from './routes/messages.js'
+import authRouter from './routes/auth.js'
 
 const app = express()
 const PORT = Number(process.env.PORT) || 3001
@@ -10,6 +11,7 @@ app.use(cors())
 app.use(express.json())
 
 app.use('/api/messages', messagesRouter)
+app.use('/api/auth', authRouter)
 
 app.get('/', (req, res) => {
   res.json({ status: 'OK', message: 'API Ele&Ela rodando' })
