@@ -26,9 +26,21 @@ function Footer() {
               Contato
             </h4>
             <ul className="space-y-2 text-sm">
-              <li>(11) 99999-9999</li>
-              <li>contato@eleeela.com.br</li>
-              <li>Rua Exemplo, 123 - São Paulo, SP</li>
+              <li>
+                <a href="https://wa.me/5589988120088" target="_blank" rel="noopener noreferrer" className="hover:text-gold-light transition-colors">
+                  WhatsApp: (89) 98812-0088
+                </a>
+              </li>
+              <li>
+                <a href="https://www.instagram.com/lazer_ele_e_ela_park/" target="_blank" rel="noopener noreferrer" className="hover:text-gold-light transition-colors">
+                  Instagram: @lazer_ele_e_ela_park
+                </a>
+              </li>
+              <li>
+                <a href="https://maps.app.goo.gl/8QS4GsunhAViZYE9A" target="_blank" rel="noopener noreferrer" className="hover:text-gold-light transition-colors">
+                  Ver no mapa
+                </a>
+              </li>
             </ul>
           </div>
         </div>
