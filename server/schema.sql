@@ -1,0 +1,12 @@
+CREATE DATABASE eleeela;
+
+\c eleeela;
+
+CREATE TABLE messages (
+  id SERIAL PRIMARY KEY,
+  nome VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  telefone VARCHAR(50),
+  mensagem TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
