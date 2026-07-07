@@ -10,3 +10,15 @@ CREATE TABLE messages (
   mensagem TEXT NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE bookings (
+  id SERIAL PRIMARY KEY,
+  nome VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  telefone VARCHAR(50),
+  tipo VARCHAR(50) NOT NULL,
+  data DATE NOT NULL,
+  horario TIME NOT NULL,
+  mensagem TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

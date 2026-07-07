@@ -1,10 +1,9 @@
-import { useState } from 'react'
 import {
   Trees, UtensilsCrossed, Waves, Heart,   Trophy, Camera,
   Wifi, Car, Accessibility, Calendar,
   Fish, Beer, ChefHat, Wallet,
   Droplets, ShieldCheck,
-  MessageCircle, MapPin, Clock, Star,
+   MessageCircle, MapPin, Clock, Star, CalendarArrowUp,
 } from 'lucide-react'
 import logoSrc from '../assets/image/Logo sem fundo.png'
 import img2 from '../assets/image/image2.webp'
@@ -14,8 +13,8 @@ import img6 from '../assets/image/image6.webp'
 
 const highlights = [
   {
-    title: 'O Espaço',
-    desc: 'Atmosfera familiar, acolhedora e tranquila, cercada por áreas verdes integradas à natureza.',
+    title: 'Ambiente',
+    desc: 'Ambiente agradável e aconchegante para reunir a família e aproveitar momentos especiais.',
     icon: Trees,
   },
   {
@@ -49,7 +48,7 @@ const gastronomia = [
 const parque = [
   { title: 'Piscinas', desc: 'Complexo de piscinas limpas e monitoradas, com áreas profundas para adultos e rasas para o público infantil.', icon: Waves },
   { title: 'Toboáguas', desc: 'Equipado com toboáguas de diferentes tamanhos e escorregadores integrados para todas as idades.', icon: Droplets },
-  { title: 'Segurança', desc: 'Área organizada para que os pais possam monitorar as crianças das mesas e espreguiçadeiras.', icon: ShieldCheck },
+  { title: 'Segurança', desc: 'Bombeiro civil presente durante todo o funcionamento.', icon: ShieldCheck },
   { title: 'Diversão Garantida', desc: 'Brinquedos aquáticos interativos em área segura e de fácil monitoramento.', icon: Heart },
 ]
 
@@ -61,24 +60,6 @@ const galeria = [
 ]
 
 function Home() {
-  const [form, setForm] = useState({ nome: '', email: '', telefone: '', mensagem: '' })
-  const [sent, setSent] = useState(false)
-
-  function handleChange(e) {
-    setForm({ ...form, [e.target.name]: e.target.value })
-  }
-
-  function handleSubmit(e) {
-    e.preventDefault()
-    fetch('/api/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...form, createdAt: new Date().toISOString() }),
-    })
-      .then(() => setSent(true))
-      .catch(() => setSent(true))
-  }
-
   return (
     <>
       {/* ===== HERO ===== */}
@@ -93,23 +74,28 @@ function Home() {
             Bem-vindo ao{' '}
             <span className="text-gold-light">Ele&amp;Ela</span>
           </h1>
-          <p className="mt-4 sm:mt-6 text-lg sm:text-xl text-slate-400 max-w-2xl mx-auto">
+          <p className="mt-4 sm:mt-6 text-lg sm:text-xl text-white/90 max-w-2xl mx-auto">
             Espaço de Lazer e Parque Aquático
+          </p>
+          <p className="mt-2 text-sm text-white/70 max-w-xl mx-auto">
+            Aberto ao público todos os sábados e domingos, das 9h às 17h
           </p>
           <div className="mt-8 sm:mt-10 flex flex-wrap items-center justify-center gap-4">
             <a
               href="#servicos"
-              className="inline-flex items-center rounded-full bg-gold-light px-6 py-3 text-sm font-semibold text-navy shadow-sm hover:bg-gold hover:-translate-y-0.5 transition-all duration-200"
+              className="inline-flex items-center justify-center rounded-full border-2 border-gold-light px-8 py-3 text-sm font-semibold text-gold-light hover:bg-gold-light hover:text-navy hover:-translate-y-0.5 transition-all duration-200 min-w-[220px]"
             >
               Conheça nossas atrações
             </a>
             <a
-              href="#contato"
-              className="inline-flex items-center rounded-full border-2 border-gold-light px-6 py-3 text-sm font-semibold text-gold-light hover:bg-gold-light hover:text-navy hover:-translate-y-0.5 transition-all duration-200"
+              href="/agendamento"
+              className="btn-glow inline-flex items-center justify-center gap-2 rounded-full bg-gold-light px-8 py-3 text-sm font-semibold text-navy shadow-lg shadow-gold-light/40 hover:bg-gold hover:shadow-gold/60 hover:-translate-y-0.5 transition-all duration-200 min-w-[220px]"
             >
-              Entre em contato
+              <CalendarArrowUp className="w-4 h-4" />
+              Agendar evento ou campo society
             </a>
           </div>
+
         </div>
       </section>
 
@@ -136,39 +122,73 @@ function Home() {
 
       {/* ===== SOBRE ===== */}
       <section id="sobre" className="bg-gradient-to-br from-gold/[0.03] to-sky-custom/[0.03] border-y border-gold/10">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
-          <h2 className="text-2xl sm:text-3xl font-bold text-center text-navy mb-3">
-            Sobre o <span className="text-gold">Ele&amp;Ela</span>
-          </h2>
-          <p className="text-center text-slate-500 mb-10 max-w-3xl mx-auto">
-            Um espaço de lazer pensado para reunir família e amigos em um ambiente acolhedor,
-            tranquilo e cercado pela natureza.
-          </p>
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+          <div className="text-center mb-12">
+            <span className="inline-block text-xs font-semibold uppercase tracking-widest text-gold mb-2">Sobre</span>
+            <h2 className="text-3xl sm:text-4xl font-bold text-navy">
+              <span className="text-gold">Ele&amp;Ela</span>
+            </h2>
+            <p className="text-slate-500 mt-4 max-w-2xl mx-auto leading-relaxed">
+              Um espaço de lazer pensado para reunir família e amigos em um ambiente acolhedor,
+              tranquilo e cercado pela natureza.
+            </p>
+          </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
+          <div className="relative mb-12">
+            <div className="absolute inset-0 flex items-center" aria-hidden>
+              <div className="w-full border-t border-gold/10" />
+            </div>
+            <div className="relative flex justify-center">
+              <span className="bg-[#f7f5f0] px-4 text-xs font-semibold uppercase tracking-widest text-slate-400">Infraestrutura</span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-14">
             {infraItems.map((item) => (
               <div
                 key={item.label}
-                className="flex items-start gap-3 rounded-xl bg-white p-4 border border-slate-100 shadow-sm"
+                className="group rounded-2xl bg-white p-5 border border-slate-100 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
               >
-                <item.icon className="w-5 h-5 text-gold mt-0.5 shrink-0" />
-                <span className="text-sm text-slate-600">{item.label}</span>
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-xl bg-gold/10 flex items-center justify-center shrink-0 group-hover:bg-gold/20 transition-colors">
+                    <item.icon className="w-5 h-5 text-gold" />
+                  </div>
+                  <span className="text-sm font-medium text-slate-700 group-hover:text-navy transition-colors">{item.label}</span>
+                </div>
               </div>
             ))}
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="rounded-xl bg-gradient-to-br from-gold/10 to-sky-custom/10 p-6 text-center border border-gold/20">
-              <div className="text-2xl font-bold text-gold-dark">Sáb e Dom</div>
-              <div className="text-sm text-slate-500">Funcionamento</div>
+          <div className="relative mb-8">
+            <div className="absolute inset-0 flex items-center" aria-hidden>
+              <div className="w-full border-t border-gold/10" />
             </div>
-            <div className="rounded-xl bg-gradient-to-br from-gold/10 to-sky-custom/10 p-6 text-center border border-gold/20">
-              <div className="text-2xl font-bold text-gold-dark">9h às 17h</div>
-              <div className="text-sm text-slate-500">Horário</div>
+            <div className="relative flex justify-center">
+              <span className="bg-[#f7f5f0] px-4 text-xs font-semibold uppercase tracking-widest text-slate-400">Informações</span>
             </div>
-            <div className="rounded-xl bg-gradient-to-br from-gold/10 to-sky-custom/10 p-6 text-center border border-gold/20">
-              <div className="text-2xl font-bold text-gold-dark">Família</div>
-              <div className="text-sm text-slate-500">Público</div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+            <div className="rounded-2xl bg-white p-6 text-center border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+              <div className="w-12 h-12 rounded-full bg-gold/10 flex items-center justify-center mx-auto mb-3">
+                <Clock className="w-6 h-6 text-gold" />
+              </div>
+              <div className="text-2xl font-bold text-navy">Sáb e Dom</div>
+              <div className="text-sm text-slate-500 mt-1">Funcionamento</div>
+            </div>
+            <div className="rounded-2xl bg-white p-6 text-center border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+              <div className="w-12 h-12 rounded-full bg-gold/10 flex items-center justify-center mx-auto mb-3">
+                <Clock className="w-6 h-6 text-gold" />
+              </div>
+              <div className="text-2xl font-bold text-navy">9h às 17h</div>
+              <div className="text-sm text-slate-500 mt-1">Horário</div>
+            </div>
+            <div className="rounded-2xl bg-white p-6 text-center border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+              <div className="w-12 h-12 rounded-full bg-gold/10 flex items-center justify-center mx-auto mb-3">
+                <Heart className="w-6 h-6 text-gold" />
+              </div>
+              <div className="text-2xl font-bold text-navy">Família</div>
+              <div className="text-sm text-slate-500 mt-1">Público</div>
             </div>
           </div>
         </div>
@@ -176,45 +196,68 @@ function Home() {
 
       {/* ===== SERVIÇOS ===== */}
       <section id="servicos" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
-        <h2 className="text-2xl sm:text-3xl font-bold text-center text-navy mb-3">
-          Nossas <span className="text-gold">Atrações</span>
-        </h2>
-        <p className="text-center text-slate-500 mb-12 max-w-2xl mx-auto">
-          Tudo que você precisa para um dia inesquecível em família
-        </p>
-
-        <h3 className="text-xl font-bold text-navy mb-6 flex items-center gap-2">
-          <Fish className="w-6 h-6 text-gold" /> Gastronomia
-        </h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-16">
-          {gastronomia.map((item) => (
-            <div key={item.title} className="group rounded-2xl bg-white p-6 shadow-sm border border-slate-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-              <div className="flex items-start gap-4">
-                <item.icon className="w-6 h-6 text-gold mt-1 shrink-0" />
-                <div>
-                  <h4 className="text-lg font-semibold text-navy mb-1 group-hover:text-gold transition-colors">{item.title}</h4>
-                  <p className="text-sm text-slate-500 leading-relaxed">{item.desc}</p>
-                </div>
-              </div>
-            </div>
-          ))}
+        <div className="text-center mb-14">
+          <span className="inline-block text-xs font-semibold uppercase tracking-widest text-gold mb-2">Atrações</span>
+          <h2 className="text-3xl sm:text-4xl font-bold text-navy">
+            Nossas <span className="text-gold">Atrações</span>
+          </h2>
+          <p className="text-slate-500 mt-4 max-w-2xl mx-auto leading-relaxed">
+            Tudo que você precisa para um dia inesquecível em família
+          </p>
         </div>
 
-        <h3 className="text-xl font-bold text-navy mb-6 flex items-center gap-2">
-          <Waves className="w-6 h-6 text-gold" /> Parque Aquático
-        </h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {parque.map((item) => (
-            <div key={item.title} className="group rounded-2xl bg-white p-6 shadow-sm border border-slate-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-              <div className="flex items-start gap-4">
-                <item.icon className="w-6 h-6 text-gold mt-1 shrink-0" />
-                <div>
-                  <h4 className="text-lg font-semibold text-navy mb-1 group-hover:text-gold transition-colors">{item.title}</h4>
-                  <p className="text-sm text-slate-500 leading-relaxed">{item.desc}</p>
+        <div className="mb-16">
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-gold/20 to-gold/5 flex items-center justify-center">
+              <Fish className="w-5 h-5 text-gold" />
+            </div>
+            <div>
+              <h3 className="text-xl font-bold text-navy">Gastronomia</h3>
+              <p className="text-sm text-slate-400">Sabores que encantam</p>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            {gastronomia.map((item) => (
+              <div key={item.title} className="group rounded-2xl bg-white p-6 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-gold/10 to-sky-custom/5 flex items-center justify-center shrink-0 group-hover:from-gold/20 group-hover:to-sky-custom/10 transition-all">
+                    <item.icon className="w-6 h-6 text-gold" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h4 className="text-lg font-semibold text-navy mb-1 group-hover:text-gold transition-colors">{item.title}</h4>
+                    <p className="text-sm text-slate-500 leading-relaxed">{item.desc}</p>
+                  </div>
                 </div>
               </div>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-gold/20 to-gold/5 flex items-center justify-center">
+              <Waves className="w-5 h-5 text-gold" />
             </div>
-          ))}
+            <div>
+              <h3 className="text-xl font-bold text-navy">Parque Aquático</h3>
+              <p className="text-sm text-slate-400">Diversão para toda a família</p>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            {parque.map((item) => (
+              <div key={item.title} className="group rounded-2xl bg-white p-6 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-gold/10 to-sky-custom/5 flex items-center justify-center shrink-0 group-hover:from-gold/20 group-hover:to-sky-custom/10 transition-all">
+                    <item.icon className="w-6 h-6 text-gold" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h4 className="text-lg font-semibold text-navy mb-1 group-hover:text-gold transition-colors">{item.title}</h4>
+                    <p className="text-sm text-slate-500 leading-relaxed">{item.desc}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -285,37 +328,6 @@ function Home() {
             <div className="text-xs text-slate-500">Ver no mapa</div>
           </a>
         </div>
-
-        {sent ? (
-          <div className="max-w-lg mx-auto rounded-xl bg-emerald-50 border border-emerald-200 p-6 text-center">
-            <p className="text-emerald-700 font-medium">Mensagem enviada com sucesso! Entraremos em contato em breve.</p>
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="space-y-4 max-w-lg mx-auto">
-            <input
-              name="nome" placeholder="Seu nome" value={form.nome} onChange={handleChange} required
-              className="block w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-navy placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-gold/30 focus:border-gold transition-colors"
-            />
-            <input
-              name="email" type="email" placeholder="Seu email" value={form.email} onChange={handleChange} required
-              className="block w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-navy placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-gold/30 focus:border-gold transition-colors"
-            />
-            <input
-              name="telefone" placeholder="Seu telefone" value={form.telefone} onChange={handleChange}
-              className="block w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-navy placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-gold/30 focus:border-gold transition-colors"
-            />
-            <textarea
-              name="mensagem" placeholder="Sua mensagem" rows={5} value={form.mensagem} onChange={handleChange} required
-              className="block w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-navy placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-gold/30 focus:border-gold transition-colors resize-y"
-            />
-            <button
-              type="submit"
-              className="w-full rounded-xl bg-gold-light px-6 py-3 text-sm font-semibold text-navy shadow-sm hover:bg-gold hover:-translate-y-0.5 transition-all duration-200"
-            >
-              Enviar mensagem
-            </button>
-          </form>
-        )}
       </section>
 
       {/* ===== AVALIAÇÃO GOOGLE ===== */}
@@ -347,13 +359,28 @@ function Home() {
           <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3">
             Venha passar o dia conosco!
           </h2>
-          <p className="text-slate-400 mb-6">Aos sábados e domingos, das 9h às 17h</p>
-          <a
-            href="#contato"
-            className="inline-flex items-center rounded-full bg-gold-light px-6 py-3 text-sm font-semibold text-navy shadow-sm hover:bg-gold hover:-translate-y-0.5 transition-all duration-200"
-          >
-            Agende eventos
-          </a>
+          <p className="text-slate-400 mb-2">Aos sábados e domingos, das 9h às 17h</p>
+          <p className="text-sm text-slate-500 mb-8 max-w-lg mx-auto">
+            O espaço é aberto a todos — o agendamento é apenas para reservar o espaço de eventos ou partidas no campo society
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <a
+              href="/agendamento"
+              className="btn-glow inline-flex items-center gap-2 rounded-full bg-gold-light px-8 py-4 text-base font-bold text-navy shadow-lg shadow-gold-light/40 hover:bg-gold hover:shadow-gold/60 hover:-translate-y-1 hover:scale-105 transition-all duration-300"
+            >
+              <CalendarArrowUp className="w-5 h-5" />
+              Reservar evento ou campo
+            </a>
+            <a
+              href="https://wa.me/5589988120088"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full border-2 border-gold-light px-6 py-3 text-sm font-semibold text-gold-light hover:bg-gold-light hover:text-navy transition-all duration-200"
+            >
+              <MessageCircle className="w-4 h-4" />
+              Tire dúvidas no WhatsApp
+            </a>
+          </div>
         </div>
       </section>
     </>

@@ -12,3 +12,12 @@
 html {
   scroll-behavior: smooth;
 }
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(224, 160, 0, 0.3), 0 0 40px rgba(224, 160, 0, 0.1); }
+  50% { box-shadow: 0 0 30px rgba(224, 160, 0, 0.6), 0 0 60px rgba(224, 160, 0, 0.2); }
+}
+
+.btn-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}

@@ -6,6 +6,7 @@ const navLinks = [
   { href: '#servicos', label: 'Serviços' },
   { href: '#galeria', label: 'Galeria' },
   { href: '#contato', label: 'Contato' },
+  { href: '/agendamento', label: 'Agendamento' },
 ]
 
 function Header() {

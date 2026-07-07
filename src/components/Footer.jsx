@@ -19,6 +19,7 @@ function Footer() {
               <li><a href="#servicos" className="hover:text-gold-light transition-colors duration-200">Serviços</a></li>
               <li><a href="#galeria" className="hover:text-gold-light transition-colors duration-200">Galeria</a></li>
               <li><a href="#contato" className="hover:text-gold-light transition-colors duration-200">Contato</a></li>
+              <li><a href="/agendamento" className="hover:text-gold-light transition-colors duration-200">Agendamento</a></li>
             </ul>
           </div>
           <div>
