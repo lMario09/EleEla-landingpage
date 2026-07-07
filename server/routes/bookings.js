@@ -71,4 +71,31 @@ router.post('/', async (req, res) => {
   }
 })
 
+router.delete('/', async (req, res) => {
+  if (!isAuthorized(req)) {
+    return res.status(401).json({ error: 'Não autorizado' })
+  }
+
+  const id = req.query.id
+  if (!id) {
+    return res.status(400).json({ error: 'ID não informado' })
+  }
+
+  try {
+    const result = await pool.query(
+      'DELETE FROM bookings WHERE id = $1 RETURNING *',
+      [id]
+    )
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Agendamento não encontrado' })
+    }
+
+    res.json({ message: 'Agendamento excluído com sucesso' })
+  } catch (err) {
+    console.error('Erro ao excluir agendamento:', err)
+    res.status(500).json({ error: 'Erro interno do servidor' })
+  }
+})
+
 export default router
