@@ -394,16 +394,16 @@ function Home() {
         </div>
 
         {menuOpen && (
-          <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4" onClick={() => setMenuOpen(null)}>
-            <div className="relative max-w-3xl w-full max-h-[90vh] flex flex-col" onClick={(e) => e.stopPropagation()}>
-              <button onClick={() => setMenuOpen(null)}
-                className="absolute -top-10 right-0 text-white/80 hover:text-white transition-colors cursor-pointer"
-              >
-                <X className="w-6 h-6" />
-              </button>
+          <div className="fixed inset-0 z-50 bg-transparent backdrop-blur-sm" onClick={() => setMenuOpen(null)}>
+            <button onClick={() => setMenuOpen(null)}
+              className="fixed top-4 right-4 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-colors cursor-pointer z-20"
+            >
+              <X className="w-6 h-6" />
+            </button>
+            <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 flex flex-col items-center max-h-[90vh] max-w-[90vw]"
+              onClick={(e) => e.stopPropagation()}>
               <img src={menuOpen.src} alt={menuOpen.label}
-                className="w-full h-auto max-h-[85vh] object-contain rounded-xl shadow-2xl" />
-              <p className="text-white text-center mt-3 text-sm font-medium">{menuOpen.label}</p>
+                className="max-h-[85vh] max-w-[85vw] w-auto h-auto object-contain" />
             </div>
           </div>
         )}
