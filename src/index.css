@@ -21,3 +21,42 @@ html {
 .btn-glow {
   animation: pulse-glow 2s ease-in-out infinite;
 }
+
+@keyframes wave-rise {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  will-change: opacity, transform;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes slideIn {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes slideOut {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+.hero-wave {
+  animation: wave-rise 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
