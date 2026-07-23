@@ -178,7 +178,7 @@ function Home() {
               Conheça nossas atrações
             </a>
             <a
-              href="/agendamento"
+              href="#agendamento"
               className="btn-glow inline-flex items-center justify-center gap-2 rounded-full bg-gold-light px-8 py-3 text-sm font-semibold text-navy shadow-lg shadow-gold-light/40 hover:bg-gold hover:shadow-gold/60 hover:-translate-y-0.5 transition-all duration-200 min-w-[220px]"
             >
               <CalendarArrowUp className="w-4 h-4" />
@@ -683,7 +683,7 @@ function Home() {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-3">
             <a
-              href="/agendamento"
+              href="#agendamento"
               className="btn-glow inline-flex items-center gap-2 rounded-full bg-gold-light px-8 py-4 text-base font-bold text-navy shadow-lg shadow-gold-light/40 hover:bg-gold hover:shadow-gold/60 hover:-translate-y-1 hover:scale-105 transition-all duration-300"
             >
               <CalendarArrowUp className="w-5 h-5" />
